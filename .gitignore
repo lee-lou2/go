@@ -1,0 +1,13 @@
+# 사용하지 않는 데이터
+.DS_Store
+.idea
+
+# 환경 변수 파일
+.env
+
+# 데이터 베이스
+sqlite.db
+
+configs/keys
+
+logs.log
