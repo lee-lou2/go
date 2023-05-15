@@ -33,6 +33,8 @@ jobs:
                   value: ${{ secrets.MONGO_USER_NAME }}
                 - name: MONGO_PASSWORD
                   value: ${{ secrets.MONGO_PASSWORD }}
+                - name: GO_ENV
+                  value: PRODUCTION
               ports: 8080
               healthz: /ping
             context:
