@@ -46,8 +46,15 @@ func (obj *Dataset) Update(objId int) (*Dataset, error) {
 	if obj.Output != "" {
 		obj.Status = 2
 	}
-	conn.Model(&obj).Where("id = ?", objId).Updates(obj)
-	return obj, nil
+	// obj id 로 데이터 조회
+	var dataset Dataset
+	conn.First(&dataset, objId)
+	// 데이터가 없으면 빈 값
+	if dataset.ID == 0 {
+		return &dataset, nil
+	}
+	conn.Model(&dataset).Updates(obj)
+	return &dataset, nil
 }
 
 // GetDatasets 데이터셋 목록 조회
