@@ -9,6 +9,7 @@ import (
 func main() {
 	// 환경 변수 조회
 	configs.LoadEnvironments()
+
 	// App 실행
 	{
 		notify.Run()

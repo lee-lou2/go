@@ -13,17 +13,18 @@ import (
 
 // LoadEnvironments 환경 변수 설정
 func LoadEnvironments() {
-	env := os.Getenv("GO_ENV")
 	// .env 파일 불러오기
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
+	env := os.Getenv("GO_ENV")
 	client, collection, err := mongo.GetCollection("configs", "env")
 	if err != nil {
 		panic(err)
 	}
 	defer client.Disconnect(context.Background())
 	data, _ := collection.Find("GO_" + env)
+	fmt.Println(data)
 	// 환경 변수로 지정
 	for key, value := range data.(map[string]interface{}) {
 		strValue := fmt.Sprintf("%v", value)
