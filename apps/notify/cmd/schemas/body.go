@@ -48,6 +48,7 @@ type Scheduler struct {
 // RequestBody 요청 바디
 type RequestBody[T RequestTypes] struct {
 	RequestID   int       `json:"request_id"`
+	MessageType string    `json:"message_type"`
 	Data        T         `json:"data"`
 	CallbackUri string    `json:"callback_uri"`
 	Scheduler   Scheduler `json:"scheduler"`
