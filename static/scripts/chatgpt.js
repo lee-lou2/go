@@ -1,9 +1,9 @@
 const token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJsZWVAbG91Mi5rciIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlfSwiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS9hdXRoIjp7InVzZXJfaWQiOiJ1c2VyLWw4ZWNWbjNzS1lPVGtMdHU0TFRqVU5aRCJ9LCJpc3MiOiJodHRwczovL2F1dGgwLm9wZW5haS5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDQwMjgwNzIxMjE2ODYzNDMzNzYiLCJhdWQiOlsiaHR0cHM6Ly9hcGkub3BlbmFpLmNvbS92MSIsImh0dHBzOi8vb3BlbmFpLm9wZW5haS5hdXRoMGFwcC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjgzMjM3MDk2LCJleHAiOjE2ODQ0NDY2OTYsImF6cCI6IlRkSkljYmUxNldvVEh0Tjk1bnl5d2g1RTR5T282SXRHIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBtb2RlbC5yZWFkIG1vZGVsLnJlcXVlc3Qgb3JnYW5pemF0aW9uLnJlYWQgb2ZmbGluZV9hY2Nlc3MifQ.FZIlMqHnfegzXb-9HNJ__6TNzUOQZBo1UxuEBVCEZ8zrhaxm8h0PgazamoT2W6xY84C27QUtOEDRh1Ud71Vz6cp8j3OOT4TJ9qMNHiDTsc6cxVIjNBSZpY7QhCfIwarhIimDz24PtPM9ViCWzoJGwwKYcYj9uM-LfJZDZr7vUdbo1JF-wCXiM2bwpUfzraaHIhfI2ZiRakNAdgKrDPVjwgQ7IRFEJkYlpTWw-WaEkFfbBYmIYILt8AgeBk1Em4J6z5coWc6C3M1bMLT7aK_0FmgKeV2D3DK4skiJdeRIiMVpMcBNcyWMTRYAa9HCWCwiN0UuZ_xLHmhuPBgQakjZQw";
-const server = "https://api.lou2.kr";
+const server = "https://go.lou2.kr";
 
 
 function updateOutput(objId, message) {
-    fetch(server + "/v1/ai/dataset/" + objId + "/", {
+    fetch(server + "/v1/ai/dataset/" + objId, {
         "headers": {"content-type": "application/json"},
         "method": "PATCH",
         "body": JSON.stringify({
@@ -37,7 +37,7 @@ function sendSlack(category, message) {
 }
 
 async function training() {
-    let resp = await fetch(ai_server + "/v1/llm/dataset/instruction/");
+    let resp = await fetch(server + "/v1/ai/dataset/instruction");
     if (resp.status != 200) {
         console.log("조회된 데이터가 없습니다.")
         return
