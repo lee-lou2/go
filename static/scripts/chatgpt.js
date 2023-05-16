@@ -13,7 +13,7 @@ function updateOutput(objId, message) {
 }
 
 function sendSlack(category, message) {
-    if(!category.includes("slack")) {
+    if (category.indexOf("slack") == -1) {
         console.log("슬랙으로 데이터 전송하지 않음");
         return
     }

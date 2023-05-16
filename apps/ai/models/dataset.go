@@ -3,7 +3,6 @@ package models
 import (
 	"github.com/lee-lou2/go/configs/db"
 	"gorm.io/gorm"
-	"strings"
 )
 
 // Dataset 데이터셋
@@ -14,16 +13,6 @@ type Dataset struct {
 	Output      string `json:"output"`
 	Status      int    `json:"status"`
 	Category    string `json:"category"`
-}
-
-// SetCategory 쉼표로 구분된 문자열을 배열로 변환
-func (obj *Dataset) SetCategory(categories []string) {
-	obj.Category = strings.Join(categories, ",")
-}
-
-// GetCategory 쉼표로 구분된 문자열을 배열로 변환
-func (obj *Dataset) GetCategory() []string {
-	return strings.Split(obj.Category, ",")
 }
 
 // Save 데이터셋 저장
