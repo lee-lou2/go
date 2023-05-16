@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/lee-lou2/go/apps/ai/models"
+	"strconv"
 )
 
 // GetDatasetsHandler 데이터셋 목록 조회
@@ -52,7 +53,13 @@ func UpdateDatasetHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	obj, err := request.Update()
+	idStr := c.Param("id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	obj, err := request.Update(id)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

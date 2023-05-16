@@ -37,7 +37,7 @@ func (obj *Dataset) Save() (*Dataset, error) {
 }
 
 // Update 데이터셋 수정
-func (obj *Dataset) Update() (*Dataset, error) {
+func (obj *Dataset) Update(objId int) (*Dataset, error) {
 	conn, err := db.GetDB()
 	if err != nil {
 		return nil, err
@@ -46,7 +46,7 @@ func (obj *Dataset) Update() (*Dataset, error) {
 	if obj.Output != "" {
 		obj.Status = 2
 	}
-	conn.Save(obj)
+	conn.Model(&obj).Where("id = ?", objId).Updates(obj)
 	return obj, nil
 }
 
