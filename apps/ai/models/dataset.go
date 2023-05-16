@@ -51,13 +51,13 @@ func (obj *Dataset) Update(objId int) (*Dataset, error) {
 }
 
 // GetDatasets 데이터셋 목록 조회
-func GetDatasets() ([]Dataset, error) {
+func GetDatasets(status int) ([]Dataset, error) {
 	conn, err := db.GetDB()
 	if err != nil {
 		return nil, err
 	}
 	var datasets []Dataset
-	conn.Where("status = ?", 2).Find(&datasets)
+	conn.Where("status = ?", status).Find(&datasets)
 	return datasets, nil
 }
 

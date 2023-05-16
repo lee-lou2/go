@@ -57,7 +57,7 @@ async function training() {
         "sec-fetch-site": "same-origin"
     };
     // __message__ 라는 문자열을 받은 메시지로 대체합니다.
-    body = body.replace('__message__', obj.instruction);
+    body = body.replace('__message__', obj.data.instruction);
     fetch("https://chat.openai.com/backend-api/conversation", {
         "headers": headers,
         "referrer": "https://chat.openai.com/?model=text-davinci-002-render-sha",
@@ -100,8 +100,8 @@ async function training() {
         const text = json.message.content.parts[0];
         // 소켓으로 전송
         console.log('Result : ' + text);
-        updateOutput(obj.id, text);
-        sendSlack(obj.category, text)
+        updateOutput(obj.data.id, text);
+        sendSlack(obj.data.category, text)
         return json.conversation_id;
     }).then(message_id => {
         fetch("https://chat.openai.com/backend-api/conversation/" + message_id, {
@@ -120,4 +120,4 @@ async function training() {
 
 setInterval(() => {
     training();
-}, 10000);
+}, 5000);

@@ -8,7 +8,16 @@ import (
 
 // GetDatasetsHandler 데이터셋 목록 조회
 func GetDatasetsHandler(c *gin.Context) {
-	datasets, err := models.GetDatasets()
+	statusStr := c.Query("status")
+	if statusStr == "" {
+		statusStr = "2"
+	}
+	status, err := strconv.Atoi(statusStr)
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	datasets, err := models.GetDatasets(status)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
