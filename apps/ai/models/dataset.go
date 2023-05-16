@@ -15,8 +15,8 @@ type Dataset struct {
 	Category    string `json:"category"`
 }
 
-// Save 데이터셋 저장
-func (obj *Dataset) Save() (*Dataset, error) {
+// Create 데이터셋 저장
+func (obj *Dataset) Create() (*Dataset, error) {
 	conn, err := db.GetDB()
 	if err != nil {
 		return nil, err

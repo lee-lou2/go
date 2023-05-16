@@ -47,7 +47,7 @@ func CreateDatasetHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	obj, err := request.Save()
+	obj, err := request.Create()
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
