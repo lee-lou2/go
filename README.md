@@ -11,17 +11,20 @@ gin 프레임워크와 gRPC, Consumer 등으로 호출되는 API를 제공합니
 
 이 프로젝트는 다음과 같은 API 및 기능을 제공합니다:
 
-| API         | Method | Description |
-|-------------|--------|-------------|
+| API        | Method | Description |
+|------------|--------|-------------|
 | Notification | Email  | 이메일 전송      |
-|             | SMS    | 문자 전송       |
-|             | Push   | 푸시 전송       |
-|             | Slack  | 슬랙 메시지 전송  |
-| Location    | IP     | IP 주소 조회    |
-|             | Geo    | Geo 정보 조회   |
-| Socket      | Websocket | 웹소켓 통신 |
-|             | SlackSocketMode | 슬랙 소켓 통신 |
-| 기타          | SSE    | SSE 통신       |
+|            | SMS    | 문자 전송       |
+|            | Push   | 푸시 전송       |
+|            | Slack  | 슬랙 메시지 전송  |
+| Account | Auth   | 인증 API       |
+|            | User   | 사용자 API      |
+| Location   | IP     | IP 주소 조회    |
+|            | Geo    | Geo 정보 조회   |
+| Socket     | Websocket | 웹소켓 통신 |
+|            | SlackSocketMode | 슬랙 소켓 통신 |
+| Content | Streaming | 비디오 스트리밍 |
+| 기타         | SSE    | SSE 통신       |
 
 
 ## Installation

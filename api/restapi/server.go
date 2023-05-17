@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	accountRoutes "github.com/lee-lou2/go/apps/account/api/restapi/routes"
 	aiRoutes "github.com/lee-lou2/go/apps/ai/api/restapi/routes"
+	contentRoutes "github.com/lee-lou2/go/apps/content/api/restapi/routes"
 	locationRoutes "github.com/lee-lou2/go/apps/location/api/restapi/routes"
 	notifyRoutes "github.com/lee-lou2/go/apps/notify/api/restapi/routes"
 	utilRoutes "github.com/lee-lou2/go/apps/util/api/restapi/routes"
@@ -46,6 +47,8 @@ func Run() {
 		utilRoutes.V1Routes(v1)
 		// AI
 		aiRoutes.V1Routes(v1)
+		// 컨텐츠
+		contentRoutes.V1Routes(v1)
 	}
 
 	// 서버 포트 지정
