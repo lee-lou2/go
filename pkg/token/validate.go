@@ -24,10 +24,10 @@ func VerifyToken(token, sessionId string, additional ...AdditionalValues) (*Payl
 	}
 
 	// 3. 캐시 존재 여부 확인
-	if claims["server"] == nil {
+	if claims["user_id"] == nil {
 		return nil, fmt.Errorf("token missing required info")
 	}
-	userId := int(claims["server"].(float64))
+	userId := claims["user_id"].(int)
 	tokenType := claims["type"].(string)
 	if err := ExistsTokenInCache(userId, tokenType, sessionId); err != nil {
 		return nil, err
@@ -44,10 +44,9 @@ func VerifyToken(token, sessionId string, additional ...AdditionalValues) (*Payl
 		}
 	}
 	return &Payload{
-		ServerUser: userId,
-		SessionId:  sessionId,
-		Group:      claims["group"].(string),
-		ClientUser: claims["client"].(string),
+		UserID:    userId,
+		SessionId: sessionId,
+		Scope:     claims["scope"].(string),
 	}, nil
 }
 
