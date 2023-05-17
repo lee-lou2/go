@@ -8,10 +8,9 @@ import (
 
 // Payload 토큰 정보
 type Payload struct {
-	SessionId  string
-	Group      string
-	ServerUser int
-	ClientUser string
+	SessionId string
+	Scope     string
+	UserID    int
 }
 
 // GetToken 토큰 생성
@@ -49,12 +48,11 @@ func generateToken(payload Payload, tokenType string, configs ...Configs) (*Toke
 	claims := respToken.Claims.(jwt.MapClaims)
 
 	// [필수] 사용자 정보 - 재발급에 필요한 정보
-	claims["server"] = payload.ServerUser
 	claims["session_id"] = payload.SessionId
 
 	// [선택] 사용자 정보 - 재발급에 필요하지 않은 정보
-	claims["client"] = payload.ClientUser
-	claims["group"] = payload.Group
+	claims["user_id"] = payload.UserID
+	claims["scope"] = payload.Scope
 
 	// [기본] 토큰 기본 정보
 	claims["iss"] = Issuer
@@ -68,7 +66,7 @@ func generateToken(payload Payload, tokenType string, configs ...Configs) (*Toke
 	}
 
 	// 캐시에 토큰 저장
-	if err := SetTokenInCache(payload.ServerUser, tokenType, payload.SessionId); err != nil {
+	if err := SetTokenInCache(payload.UserID, tokenType, payload.SessionId); err != nil {
 		log.Println("캐시에 토큰 저장간 오류 발생, 오류 내용 : " + err.Error())
 	}
 

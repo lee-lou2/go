@@ -24,7 +24,6 @@ func LoadEnvironments() {
 	}
 	defer client.Disconnect(context.Background())
 	data, _ := collection.Find("GO_" + env)
-	fmt.Println(data)
 	// 환경 변수로 지정
 	for key, value := range data.(map[string]interface{}) {
 		strValue := fmt.Sprintf("%v", value)
