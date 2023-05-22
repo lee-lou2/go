@@ -11,6 +11,9 @@ import (
 
 // Generate AI 생성
 func Generate(prompt, accessToken, refreshToken string) (*string, error) {
+	if refreshToken == "" {
+		refreshToken = os.Getenv("WRTN_DEFAULT_REFRESH_TOKEN")
+	}
 	if refreshToken != "" {
 		token, err := RefreshToken(refreshToken)
 		if err != nil {
