@@ -6,6 +6,7 @@ import (
 	"github.com/lee-lou2/go/pkg/requests"
 	"net/url"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -53,4 +54,33 @@ func GetToken(code, state string) (*tokenResponse, error) {
 		return nil, err
 	}
 	return &respData, nil
+}
+
+// GetUserInfo 사용자 정보 가져오기
+func GetUserInfo(token string) (int, error) {
+	respData := struct {
+		Sub string `json:"sub"`
+	}{}
+	// 요청
+	resp, _ := requests.Http(
+		"GET",
+		os.Getenv("OAUTH2_SSO_SERVER_HOST")+"/oauth2/userinfo/",
+		nil,
+		// bearer token
+		&requests.Header{
+			Key:   "Authorization",
+			Value: "Bearer " + token,
+		},
+	)
+	if resp.StatusCode != 200 {
+		return 0, fmt.Errorf("토큰 조회를 실패하였습니다 : %s", resp.Body)
+	}
+	if err := json.Unmarshal([]byte(resp.Body), &respData); err != nil {
+		return 0, err
+	}
+	userId, err := strconv.Atoi(respData.Sub)
+	if err != nil {
+		return 0, err
+	}
+	return userId, nil
 }
