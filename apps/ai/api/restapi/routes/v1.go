@@ -16,5 +16,7 @@ func V1Routes(v1 *gin.RouterGroup) {
 		ai.PATCH("/dataset/:id", handlers.UpdateDatasetHandler)
 		// ChatGPT
 		ai.POST("/chat", handlers.ChatGPTAPIHandler)
+		// 뤼튼
+		ai.POST("/wrtn", handlers.WRTNHandler)
 	}
 }
