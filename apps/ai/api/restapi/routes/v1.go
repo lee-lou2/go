@@ -13,6 +13,7 @@ func V1Routes(v1 *gin.RouterGroup) {
 		ai.GET("/dataset", handlers.GetDatasetsHandler)
 		ai.GET("/dataset/instruction", handlers.GetInstructionHandler)
 		ai.POST("/dataset", handlers.CreateDatasetHandler)
+		ai.POST("/datasets", handlers.CreateDatasetsHandler)
 		ai.PATCH("/dataset/:id", handlers.UpdateDatasetHandler)
 		// ChatGPT
 		ai.POST("/chat", handlers.ChatGPTAPIHandler)

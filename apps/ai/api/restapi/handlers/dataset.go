@@ -56,6 +56,25 @@ func CreateDatasetHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"data": obj})
 }
 
+// CreateDatasetsHandler 데이터셋 일괄 생성
+func CreateDatasetsHandler(c *gin.Context) {
+	var requests []models.Dataset
+	var objs []models.Dataset
+	if err := c.ShouldBindJSON(&requests); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	for _, request := range requests {
+		obj, err := request.Create()
+		objs = append(objs, *obj)
+		if err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+	}
+	c.JSON(200, gin.H{"data": objs})
+}
+
 // UpdateDatasetHandler 데이터셋 수정
 func UpdateDatasetHandler(c *gin.Context) {
 	request := models.Dataset{}
