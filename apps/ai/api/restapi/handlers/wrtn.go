@@ -10,6 +10,7 @@ import (
 type WRTNRequestBody struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
+	Model        string `json:"model"`
 	Text         string `json:"text"`
 }
 
@@ -22,7 +23,7 @@ func WRTNHandler(c *gin.Context) {
 		})
 		return
 	}
-	response, err := wrtn.Generate(request.Text, request.AccessToken, request.RefreshToken)
+	response, err := wrtn.Generate(request.Text, request.AccessToken, request.RefreshToken, request.Model)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": err.Error(),

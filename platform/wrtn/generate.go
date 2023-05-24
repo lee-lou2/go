@@ -10,7 +10,7 @@ import (
 )
 
 // Generate AI 생성
-func Generate(prompt, accessToken, refreshToken string) (*string, error) {
+func Generate(prompt, accessToken, refreshToken, model string) (*string, error) {
 	if refreshToken == "" {
 		refreshToken = os.Getenv("WRTN_DEFAULT_REFRESH_TOKEN")
 	}
@@ -27,7 +27,15 @@ func Generate(prompt, accessToken, refreshToken string) (*string, error) {
 
 	user := os.Getenv("WRTN_USER")
 	room := os.Getenv("WRTN_ROOM")
-	url := fmt.Sprintf("https://william.wow.wrtn.ai/generate/stream/%s?type=big&model=GPT4&platform=web&user=%s", room, user)
+	if model == "" {
+		model = "GPT4"
+	}
+	url := fmt.Sprintf(
+		"https://william.wow.wrtn.ai/generate/stream/%s?type=big&model=%s&platform=web&user=%s",
+		room,
+		model,
+		user,
+	)
 	method := "POST"
 	payload := []byte(fmt.Sprintf(`{"message":"%s","reroll":false}`, prompt))
 
