@@ -17,7 +17,8 @@ func GetDatasetsHandler(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	datasets, err := models.GetDatasets(status)
+	category := c.Query("category")
+	datasets, err := models.GetDatasets(status, category)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return

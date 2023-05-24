@@ -47,13 +47,17 @@ func (obj *Dataset) Update(objId int) (*Dataset, error) {
 }
 
 // GetDatasets 데이터셋 목록 조회
-func GetDatasets(status int) ([]Dataset, error) {
+func GetDatasets(status int, category string) ([]Dataset, error) {
 	conn, err := db.GetDB()
 	if err != nil {
 		return nil, err
 	}
 	var datasets []Dataset
-	conn.Where("status = ?", status).Find(&datasets)
+	if category != "" {
+		conn.Where("status = ? AND category LIKE ?", status, "%"+category+"%").Find(&datasets)
+	} else {
+		conn.Where("status = ?", status).Find(&datasets)
+	}
 	return datasets, nil
 }
 
