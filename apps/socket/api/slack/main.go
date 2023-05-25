@@ -7,7 +7,7 @@ import (
 
 // RequestMessage 메시지 가져오기
 func RequestMessage(text string) (string, error) {
-	response, err := wrtn.Generate(text, "", "")
+	response, err := wrtn.Generate(text, "", "", "")
 	if err != nil {
 		return "요청 실패", err
 	}
