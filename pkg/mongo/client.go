@@ -2,7 +2,6 @@ package mongo
 
 import (
 	"context"
-	"fmt"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -17,8 +16,7 @@ func getClient(configs ...Configs) (*mongo.Client, error) {
 	// MongoDB 클라이언트 설정
 	cfg, err := setConfigs(configs...)
 
-	uri := fmt.Sprintf("mongodb://%s:%s", cfg.Host, cfg.Port)
-	clientOptions := options.Client().ApplyURI(uri)
+	clientOptions := options.Client().ApplyURI(cfg.Host)
 
 	// 인증 정보 추가
 	credential := options.Credential{
