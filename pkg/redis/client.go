@@ -2,7 +2,7 @@ package redis
 
 import (
 	"fmt"
-	"github.com/go-redis/redis"
+	"github.com/redis/go-redis/v9"
 	"strconv"
 )
 
@@ -27,8 +27,7 @@ func Client(configs ...Configs) (*NewClient, error) {
 		Password: cfg.redisPassword,
 		DB:       db,
 	})}
-
-	if _, err := client.Ping().Result(); err != nil {
+	if _, err := client.Ping(ctx).Result(); err != nil {
 		return nil, err
 	}
 

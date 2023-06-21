@@ -1,13 +1,16 @@
 package redis
 
 import (
+	"context"
 	"fmt"
 	"time"
 )
 
+var ctx = context.Background()
+
 // Pub Redis Publish
 func (c *NewClient) Pub(channel string, message interface{}) error {
-	err := c.Publish(channel, message).Err()
+	err := c.Publish(ctx, channel, message).Err()
 	if err != nil {
 		return err
 	}
@@ -17,12 +20,12 @@ func (c *NewClient) Pub(channel string, message interface{}) error {
 
 // Sub Redis Subscribe
 func (c *NewClient) Sub(channel string, message chan<- string) error {
-	sub := c.Subscribe(channel)
+	sub := c.Subscribe(ctx, channel)
 
 	defer sub.Close()
 
 	for {
-		msg, err := sub.ReceiveMessage()
+		msg, err := sub.ReceiveMessage(ctx)
 		if err != nil {
 			return err
 		}
@@ -33,7 +36,7 @@ func (c *NewClient) Sub(channel string, message chan<- string) error {
 
 // Produce Redis Producer
 func (c *NewClient) Produce(key string, value interface{}) error {
-	_, err := c.LPush(key, value).Result()
+	_, err := c.LPush(ctx, key, value).Result()
 	if err != nil {
 		return err
 	}
@@ -43,7 +46,7 @@ func (c *NewClient) Produce(key string, value interface{}) error {
 
 // Consume Redis Consumer
 func (c *NewClient) Consume(key string) (string, error) {
-	result, err := c.BRPop(0, key).Result()
+	result, err := c.BRPop(ctx, 0, key).Result()
 	if err != nil {
 		return "", err
 	}
@@ -53,12 +56,12 @@ func (c *NewClient) Consume(key string) (string, error) {
 
 // GetValue Redis Get Value
 func (c *NewClient) GetValue(key string) (string, error) {
-	return c.Get(key).Result()
+	return c.Get(ctx, key).Result()
 }
 
 // SetValue Redis Set Value
 func (c *NewClient) SetValue(key string, value string, expiration int) error {
-	if err := c.Set(key, value, time.Duration(expiration)*time.Second).Err(); err != nil {
+	if err := c.Set(ctx, key, value, time.Duration(expiration)*time.Second).Err(); err != nil {
 		return fmt.Errorf("redis set value error: %w", err)
 	}
 	return nil
@@ -66,7 +69,7 @@ func (c *NewClient) SetValue(key string, value string, expiration int) error {
 
 // PushValue 캐시 값 추가
 func (c *NewClient) PushValue(key string, value string) error {
-	if err := c.LPush(key, value).Err(); err != nil {
+	if err := c.LPush(ctx, key, value).Err(); err != nil {
 		return err
 	}
 	return nil
@@ -74,7 +77,7 @@ func (c *NewClient) PushValue(key string, value string) error {
 
 // PopValue 캐시 값 제거
 func (c *NewClient) PopValue(key string) (string, error) {
-	value, err := c.RPop(key).Result()
+	value, err := c.RPop(ctx, key).Result()
 	if err != nil {
 		return "", err
 	}
@@ -83,7 +86,7 @@ func (c *NewClient) PopValue(key string) (string, error) {
 
 // GetRange 값 리스트 조회
 func (c *NewClient) GetRange(key string) ([]string, error) {
-	values, err := c.LRange(key, 0, -1).Result()
+	values, err := c.LRange(ctx, key, 0, -1).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +95,7 @@ func (c *NewClient) GetRange(key string) ([]string, error) {
 
 // GetLength 전체 카운트 조회
 func (c *NewClient) GetLength(key string) (int, error) {
-	count, err := c.LLen(key).Result()
+	count, err := c.LLen(ctx, key).Result()
 	if err != nil {
 		return 0, err
 	}
@@ -104,7 +107,7 @@ func (c *NewClient) PushValueSetLimit(key string, value string, limit int) error
 	var err error
 
 	// 데이터 수 조회
-	count, err := c.LLen(key).Result()
+	count, err := c.LLen(ctx, key).Result()
 	if err != nil {
 		return err
 	}
@@ -112,16 +115,16 @@ func (c *NewClient) PushValueSetLimit(key string, value string, limit int) error
 	// 최대 제한 수를 초과하는 경우 초과되는 값들은 제거
 	if int(count) >= limit {
 		for i := 0; i <= int(count)-limit; i++ {
-			c.RPop(key)
+			c.RPop(ctx, key)
 		}
 	}
-	return c.LPush(key, value).Err()
+	return c.LPush(ctx, key, value).Err()
 }
 
 // ExistsValue 리스트 내 해당 데이터가 있는지 확인
 func (c *NewClient) ExistsValue(key string, value string) (bool, error) {
 	// 리스트 조회
-	values, err := c.LRange(key, 0, -1).Result()
+	values, err := c.LRange(ctx, key, 0, -1).Result()
 	if err != nil {
 		return false, err
 	}
