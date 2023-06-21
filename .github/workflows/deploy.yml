@@ -27,8 +27,6 @@ jobs:
               env:
                 - name: MONGO_HOST
                   value: ${{ secrets.MONGO_HOST }}
-                - name: MONGO_PORT
-                  value: 27017
                 - name: MONGO_USER_NAME
                   value: ${{ secrets.MONGO_USER_NAME }}
                 - name: MONGO_PASSWORD
