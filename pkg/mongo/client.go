@@ -35,7 +35,10 @@ func getClient(configs ...Configs) (*mongo.Client, error) {
 // GetCollection 컬렉션 선택
 func GetCollection(dbName string, colName string) (*mongo.Client, *NewCollection, error) {
 	// 컬렉션 선택
-	client, _ := getClient()
+	client, err := getClient()
+	if err != nil {
+		return client, nil, err
+	}
 	collection := &NewCollection{client.Database(dbName).Collection(colName)}
 	return client, collection, nil
 }
