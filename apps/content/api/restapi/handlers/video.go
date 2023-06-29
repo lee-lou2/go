@@ -45,3 +45,9 @@ func VideoStreamingHandler(c *gin.Context) {
 		return
 	}
 }
+
+func HLSStreamingHandler(c *gin.Context) {
+	fileName := c.Param("filename")
+	c.Header("Content-Type", "application/vnd.apple.mpegurl")
+	http.ServeFile(c.Writer, c.Request, "./static/contents/"+fileName)
+}
