@@ -24,6 +24,7 @@ gin 프레임워크와 gRPC, Consumer 등으로 호출되는 API를 제공합니
 | Socket     | Websocket | 웹소켓 통신 |
 |            | SlackSocketMode | 슬랙 소켓 통신 |
 | Content | Streaming | 비디오 스트리밍 |
+| AI | LLM | ChatGPT API |
 | 기타         | SSE    | SSE 통신       |
 
 
